@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Puts fnox's official Linux x64 binary for the version in fnox-version.txt into package/bin/, after
-# checking it against the attestation fnox's own release workflow made for it: the file must have been
-# built by jdx/fnox's workflow, or this stops. Needs gh (preinstalled on GitHub's runners) and GH_TOKEN.
+# Usage: scripts/fetch-fnox.sh <version>
+# Puts fnox's official Linux x64 binary for that version into package/bin/, after checking it against the
+# attestation fnox's own release workflow made for it: the file must have been built by jdx/fnox's
+# workflow, or this stops. Needs gh (preinstalled on GitHub's runners) and GH_TOKEN.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-version="$(tr -d '[:space:]' <fnox-version.txt)"
+version="${1:?usage: scripts/fetch-fnox.sh <version>}"
+version="${version#v}"
 asset="fnox-x86_64-unknown-linux-musl.tar.gz"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT

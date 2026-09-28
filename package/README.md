@@ -4,8 +4,8 @@
 This package is not a fnox distribution, is not supported, and may disappear without notice.
 
 It holds one file: the official Linux x64 build of [fnox](https://github.com/jdx/fnox) by jdx, unchanged,
-from fnox's own GitHub release, verified against that release's attestation before it was packed. The
-fnox version is in `FNOX_VERSION`.
+from fnox's own GitHub release, verified against that release's attestation before it was packed. **The
+package version is the fnox version**, and `FNOX_VERSION` says it too.
 
 **Why it exists.** Claude Code's cloud sessions can reach package registries such as npm, but not the
 GitHub release downloads of repositories outside the session, which is where fnox — and mise, when it

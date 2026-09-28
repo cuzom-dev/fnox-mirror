@@ -18,15 +18,19 @@ use it.
 
 ## How a version gets here
 
-1. `fnox-version.txt` pins the fnox version. Renovate opens a pull request when fnox releases a new one.
-2. Merging it releases this repository (release-please).
-3. The release workflow downloads that version's `fnox-x86_64-unknown-linux-musl.tar.gz` from
-   [jdx/fnox's release](https://github.com/jdx/fnox/releases), **verifies it against the attestation fnox's
-   own release workflow made** (`gh attestation verify --repo jdx/fnox`), checks that the binary reports that
-   version, and stages the npm package with provenance.
-4. A person approves the staged package on npmjs.com. Nothing reaches npm without that.
+Nothing is committed to publish a version, and no bot writes to this repository.
 
-The binary is never committed here; `scripts/fetch-fnox.sh` is the whole of the fetching and checking.
+1. The [Mirror workflow](.github/workflows/mirror.yml) runs daily from `main`. When fnox has a release that
+   is at least three days old and not yet on npm, it takes it (`scripts/pick-version.sh`).
+2. It downloads that release's `fnox-x86_64-unknown-linux-musl.tar.gz` from
+   [jdx/fnox](https://github.com/jdx/fnox/releases), **verifies it against the attestation fnox's own release
+   workflow made** (`gh attestation verify --repo jdx/fnox`) and checks that the binary reports that version
+   (`scripts/fetch-fnox.sh`).
+3. It publishes the package **under fnox's own version number** — `@cuzom/fnox-mirror@1.35.3` is fnox 1.35.3 —
+   over OIDC, with provenance, from the `npm` environment that only `main` may use. No token exists.
+
+"Run workflow" with a version publishes that one at once. No person approves each release; why, and what
+stands in for that approval, is in [docs/decisions.md](docs/decisions.md).
 
 ## When it can go
 

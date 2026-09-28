@@ -7,4 +7,5 @@ repository:
   attestation check in `scripts/fetch-fnox.sh` — that check is the whole reason the package can be trusted.
 - **The package is for Cuzom's Claude cloud sessions only**, and says so. Do not widen it: no other
   platforms, no extra features, no wrapper code.
-- **A fnox version bump is a `fix(deps)` commit**, so it releases; Renovate is configured that way.
+- **Nothing is committed to publish a fnox version**: the Mirror workflow publishes each release by itself.
+  Do not add a version file, release-please or a Renovate rule for fnox back.
