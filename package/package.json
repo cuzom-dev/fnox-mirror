@@ -1,0 +1,33 @@
+{
+  "name": "@cuzom/fnox-mirror",
+  "version": "0.1.0",
+  "description": "NOT FOR GENERAL USE. fnox's Linux x64 binary, repackaged only so Cuzom's Claude cloud sessions can install it. Install fnox from https://fnox.jdx.dev instead.",
+  "license": "MIT",
+  "author": "Cuzom Oy",
+  "homepage": "https://fnox.jdx.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuzom-dev/fnox-mirror.git",
+    "directory": "package"
+  },
+  "bugs": "https://github.com/jdx/fnox/issues",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "bin": {
+    "fnox": "bin/fnox"
+  },
+  "files": [
+    "bin/fnox",
+    "LICENSE",
+    "README.md",
+    "FNOX_VERSION"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
