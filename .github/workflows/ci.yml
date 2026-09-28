@@ -1,0 +1,31 @@
+# Checks the packaging the way the release will run it, without publishing.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - run: shellcheck scripts/*.sh
+      - run: pipx run --spec "reuse[charset-normalizer]" reuse lint
+      - name: Fetch and verify fnox
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/fetch-fnox.sh
+      - name: The package holds exactly what it should
+        working-directory: package
+        run: |
+          npm pack --dry-run --json | tee pack.json
+          node -e 'const f=require("./pack.json")[0].files.map(x=>x.path).sort();const want=["FNOX_VERSION","LICENSE","README.md","bin/fnox","package.json"];if(JSON.stringify(f)!==JSON.stringify(want)){console.error("unexpected files:",f);process.exit(1)}'

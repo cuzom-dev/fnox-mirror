@@ -1,0 +1,13 @@
+version = 1
+SPDX-PackageName = "fnox-mirror"
+SPDX-PackageSupplier = "Cuzom Oy"
+SPDX-PackageDownloadLocation = "https://github.com/cuzom-dev/fnox-mirror"
+
+# This repository's own files: shared tooling, Apache-2.0 like dev-tools (handbook, licensing.md).
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "Cuzom Oy"
+SPDX-License-Identifier = "Apache-2.0"
+
+# package/LICENSE is fnox's own MIT licence text, shipped with its binary in the package; the binary itself
+# is never in this repository (THIRD_PARTY_NOTICES.md).

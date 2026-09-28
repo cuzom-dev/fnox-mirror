@@ -1,0 +1,4 @@
+package/bin/
+package/FNOX_VERSION
+node_modules/
+*.tgz
