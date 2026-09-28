@@ -14,9 +14,9 @@ What stands in for the approval:
 - **Only `main` can publish.** The publishing job runs in the GitHub environment `npm`, which only `main`
   may use, and npm's trusted publisher for the package accepts this repository's `mirror.yml` in that
   environment only. A workflow changed on a branch — by anyone, an agent included — cannot publish.
-- **The trusted publisher has *Allow npm publish* ticked**, unlike the handbook's default. Without it npm
-  accepts only `npm stage publish` from the workflow, and a direct publish fails with *403 OIDC permission
-  denied for this action*.
+- **The trusted publisher has _Allow npm publish_ ticked**, unlike the handbook's default. Without it npm
+  accepts only `npm stage publish` from the workflow, and a direct publish fails with _403 OIDC permission
+  denied for this action_.
 - **No tokens.** The package requires two-factor authentication and disallows tokens; publishing is over
   OIDC only.
 - **A three-day wait**, the same one every Cuzom repository gives a new dependency, so that a release
