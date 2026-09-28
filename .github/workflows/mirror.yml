@@ -1,0 +1,59 @@
+# Publishes each new fnox release to npm as @cuzom/fnox-mirror, the package version being the fnox version.
+# Runs daily from main; a new fnox release is published once it is three days old. A person can publish a
+# given version at once with "Run workflow" (version input).
+#
+# No person approves each release, deliberately (docs/decisions.md). What stands in for that approval:
+# - the binary must pass `gh attestation verify --repo jdx/fnox` - built by fnox's own release workflow;
+# - publishing needs the `npm` environment, which only main may use, and npm's trusted publisher accepts this
+#   workflow in that environment only: a workflow changed on a branch cannot publish;
+# - the package on npm allows no tokens at all.
+name: Mirror
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: A fnox version to publish now, e.g. 1.35.3 (skips the three-day wait)
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write # npm identifies this workflow over OIDC: no token anywhere
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@v4 # Renovate pins it to a digest
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Choose the version
+        id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WANTED: ${{ inputs.version }}
+        run: scripts/pick-version.sh >>"$GITHUB_OUTPUT"
+      - name: Fetch and verify fnox
+        if: steps.pick.outputs.version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: scripts/fetch-fnox.sh "${{ steps.pick.outputs.version }}"
+      - name: Publish
+        if: steps.pick.outputs.version
+        working-directory: package
+        env:
+          VERSION: ${{ steps.pick.outputs.version }}
+        run: |
+          npm version --no-git-tag-version "$VERSION"
+          npx --yes npm@latest publish --access public
