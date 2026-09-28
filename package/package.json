@@ -1,6 +1,6 @@
 {
   "name": "@cuzom/fnox-mirror",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "NOT FOR GENERAL USE. fnox's Linux x64 binary, repackaged only so Cuzom's Claude cloud sessions can install it. Install fnox from https://fnox.jdx.dev instead.",
   "license": "MIT",
   "author": "Cuzom Oy",
