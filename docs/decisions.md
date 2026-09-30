@@ -24,3 +24,32 @@ What stands in for the approval:
 
 Nothing is committed per version either: the package version is fnox's own, set at publishing time, so
 no bot writes to this repository.
+
+## The conventions record announces nothing here (2026-09-30)
+
+Every Cuzom repository records in `.cuzom-conventions.toml` the handbook and `dev-tools` versions it was
+last checked against, and the shared Renovate preset opens a pull request when a newer one is released:
+that pull request is what normally starts the next alignment. **In this repository it never arrives.** The
+preset resolves both versions as GitHub releases of Cuzom's shared repositories, which are private, and
+Renovate gives a public repository a token scoped to that repository alone.
+
+So the record here is a record and not a trigger. It still says what this repository was checked against,
+which is what lets the next audit read only what changed since; but the next alignment has to be started by
+someone comparing the numbers with the current releases, not by a pull request.
+
+Alternatives considered:
+
+- **Drop the record.** Rejected: it is the one reference to the shared conventions a public repository
+  keeps, and without it the next audit would have to start from every rule rather than from a diff.
+- **Give Renovate a token that can read the private repositories.** Rejected: a public repository would
+  then hold a credential that reads Cuzom's private repositories, to save one comparison of two numbers.
+
+This stops being true the day the handbook is public.
+
+## A mise.toml for one tool (2026-09-30)
+
+Nobody runs anything from this repository on a machine, so a `mise.toml` does not buy the usual thing,
+that CI runs the versions a machine runs. It is here for a narrower reason: **a Node version written into a
+workflow is never updated.** Renovate pins the actions a workflow uses, but not the version an action is
+told to install. A version in `mise.toml` is one it maintains, so both workflows install Node through
+`jdx/mise-action` from this file, and no workflow names a version of its own.
