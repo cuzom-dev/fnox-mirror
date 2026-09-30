@@ -34,10 +34,7 @@ jobs:
       id-token: write # npm identifies this workflow over OIDC: no token anywhere
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: actions/setup-node@v4 # Renovate pins it to a digest
-        with:
-          node-version: 24
-          registry-url: https://registry.npmjs.org
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4 - node from mise.toml
       - name: Choose the version
         id: pick
         env:
@@ -54,6 +51,7 @@ jobs:
         working-directory: package
         env:
           VERSION: ${{ steps.pick.outputs.version }}
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org
         run: |
           npm version --no-git-tag-version "$VERSION"
           npx --yes npm@latest publish --access public
