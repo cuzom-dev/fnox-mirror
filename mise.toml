@@ -1,0 +1,7 @@
+# Tools for this repository (https://mise.jdx.dev). Renovate keeps them current. CI uses this same file
+# through jdx/mise-action, so no workflow names a version of its own.
+#
+# Only node: the workflows run npm and npx and nothing else that needs installing. shellcheck, gh and pipx
+# come with the runner image.
+[tools]
+node = "24"

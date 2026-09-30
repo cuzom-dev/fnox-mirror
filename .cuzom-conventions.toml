@@ -1,6 +1,6 @@
 # The versions of Cuzom's shared conventions this repository was last checked against: the handbook's
-# rules and the templates it was set up from. Renovate opens a pull request when a newer one is released;
-# read the changes it lists, bring the repository in line, and merge. Versions only, never links.
-# When you copy this file, set both to the latest releases.
-handbook = "1.4.0"
-tools = "1.2.1"
+# rules and the templates it was set up from. Versions only, never links.
+# Nothing announces a newer one here: this repository is public, and Renovate cannot read the releases of
+# the private repositories these numbers refer to (docs/decisions.md). An alignment starts by reading them.
+handbook = "2.3.0"
+tools = "3.4.0"
